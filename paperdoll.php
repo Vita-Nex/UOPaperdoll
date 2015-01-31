@@ -662,7 +662,7 @@ class Paperdoll
 
 	function GetValueFromFile($file, $length)
 	{
-		if (($value = fread($file, $length)) == FALSE)
+		if (($value = fread($file, $length)) == false)
 		{
 			if($this->Debug)
 				$this->Logs[] = "Get Value From File returned VOID...";
@@ -670,13 +670,7 @@ class Paperdoll
 			return -1;
 		}
 		
-		switch($length)
-		{
-			case 4: $value = unpack('l', $value); break;
-			case 2: $value = unpack('s', $value); break;
-			case 1: $value = unpack('c', $value); break;
-			default: $value = unpack('l*', $value); return $value;
-		}
+		$value = $this->UnpackSigned($value, $length * 8);
 		
 		if($this->Debug)
 			$this->Logs[] = "Get Value From " . 
@@ -687,6 +681,27 @@ class Paperdoll
 			"File")))) . " returned ". $value[1] . "...";
 		
 		return $value[1];
+	}
+	
+	function UnpackSigned($data, $bits = 8)
+	{
+		$t = $bits / 8;
+		$r =  $bits % 8;
+		
+		if($r !== 0)
+			$bits = 8 * $t;
+		
+		$code = 'a*error';
+		
+		switch($bits)
+		{
+			case 8: $code = 'c*char'; break;
+			case 16: $code = 's*short'; break;
+			case 32: $code = 'i*int'; break;
+			case 64: $code = 'l*long'; break;
+		}
+		
+		return unpack($code, $data);
 	}
 
 	function AddGump($sendData)
