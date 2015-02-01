@@ -697,8 +697,8 @@ class Paperdoll
 		{
 			case 8: $code = 'c*char'; break;
 			case 16: $code = 's*short'; break;
-			case 32: $code = 'i*int'; break;
-			case 64: $code = 'l*long'; break;
+			case 32: $code = 'l*int'; break;
+			case 64: $code = 'q*long'; break;
 		}
 		
 		return unpack($code, $data);
