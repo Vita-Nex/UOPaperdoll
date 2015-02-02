@@ -21,9 +21,9 @@ $paperdoll = new Paperdoll($loadID);
 
 class Paperdoll
 {
-	var $Debug = DEBUG;
+	var $Debug;
 	var $Logs;
-
+	
 	var $Load;
 
 	var $Char;
@@ -57,41 +57,49 @@ class Paperdoll
 	
 	function Initialize()
 	{
-		$this->InitializeDB();
-	
+		include_once "config.php";
+		
+		$this->Debug = DEBUG;
+		
+		$this->InitDB();
+		
 		$this->InitChar();		
 		
 		if(!isset($this->Char))
-			die('Character not found!');
-					
-		$this->InitMulFiles();
+		{
+			if($this->Debug)
+				$this->Logs[] = "Character not found!";
+		}
+		else
+		{
+			$this->InitMulFiles();
 		
-		$this->RemoveGuildStrings();
-		$this->SetBodyIndex();
-		$this->SetBodyHue();		
-		$this->SetDimensions(); //Optional ($Height,$Width)
-		$this->InitItems();	
-		$this->BuildGump();
-		$this->FormatText();				
-		$this->AddText();
+			$this->RemoveGuildStrings();
+			$this->SetBodyIndex();
+			$this->SetBodyHue();		
+			$this->SetDimensions(); //Optional ($Height,$Width)
+			$this->InitItems();	
+			$this->BuildGump();
+			$this->FormatText();				
+			$this->AddText();
+		}
 		
 		if($this->Debug)
 		{
-			for($i = 0; $i < sizeof($this->Logs); $i++)
-				echo $this->Logs[$i] . "<br/>";
+			foreach($this->Logs as $line)
+				echo $line . "<br/>";
 		}
-		else
+		else if(isset($this->Char))
 			$this->CreateGump();
 		
 		$this->KillFiles();		
 	}
 	
-	function InitializeDB()
+	function InitDB()
 	{
 		if($this->Debug)
 			$this->Logs[] = "Initializing Database...";
 	
-		include_once "config.php";
 		include_once "database.php";
 		
 		$this->Database = $database;
