@@ -613,9 +613,9 @@ class Paperdoll
 					}
 					else
 					{
-						$newR = ($color32[$R] >> 10) * 8;
-						$newG = (($color32[$R] >> 5) & 0x1F) * 8;
-						$newB = ($color32[$R] & 0x1F) * 8;
+						$newR = ($color32[$r] >> 10) * 8;
+						$newG = (($color32[$r] >> 5) & 0x1F) * 8;
+						$newB = ($color32[$r] & 0x1F) * 8;
 					}
 					
 					if(($r * 8 > 0) || $g * 8 > 0 || $b * 8 > 0)
