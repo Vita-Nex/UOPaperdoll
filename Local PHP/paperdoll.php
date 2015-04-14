@@ -121,7 +121,7 @@ class Paperdoll
 		if($this->Debug)
 			$this->Logs[] = "Initializing Character...";
 	
-		$q = "SELECT * FROM " . TBL_CHARS . " WHERE id='" . $this->Load . "'";
+		$q = "SELECT * FROM " . TBL_CHARS . " WHERE char_id='" . $this->Load . "'";
 		
 		if($this->Debug)
 			$this->Logs[] = "Query Database: ".$q;
@@ -706,7 +706,7 @@ class Paperdoll
 			case 8: $code = 'c*char'; break;
 			case 16: $code = 's*short'; break;
 			case 32: $code = 'l*int'; break;
-			case 64: $code = 'q*long'; break;
+			case 64: $code = 'f*long'; break;
 		}
 		
 		return unpack($code, $data);
